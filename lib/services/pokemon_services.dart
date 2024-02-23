@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pokemon/models/pokemon_model.dart';
 import 'package:http/http.dart' as http;
@@ -101,8 +102,7 @@ class PokemonService{
  }
  
 // this is to get eveolution chain of a perticular pokemon...
-Future<List<Map>> getPokemonEvolutionChain(String url)async {
-  List<Map> evolutionChain = [];
+Future<List<Pokemon>> getPokemonEvolutionChain(String url)async {
 
   // getting evolution chain from the evolutionc chain url...
    final evolutionChainResponse = await http.get(Uri.parse(url));
@@ -118,24 +118,15 @@ Future<List<Map>> getPokemonEvolutionChain(String url)async {
       
        
 
-       // now fetching the pokemon of each species from the species url
+       // now fetching the pokemon of each species by the name of pokemon
        final responses = await Future.wait(result.map((e) {
-        
-
-        return http.get(Uri.parse(e.url));
+        debugPrint("strge : ${e.stage} : ${e.name}");
+        return searchPokemonByNameOrId(e.name);
        }));
       
-
-      // converting pokemon data to PokemonModel...
-      for(var pokemon in responses){
-       final pokemonbody = jsonDecode(pokemon.body); 
-      //  final newPokemon = Pokemon.fromJson(pokemonbody);
-       evolutionChain.add(pokemonbody);
-       }
-       
-       // returning the pokemon list of the chain...
-      
-       return evolutionChain;
+    
+       // returning the pokemon list of the from the chain...   
+       return responses;
       } else {
         throw Exception('Failed to fetch evolution chain data. Status code: ${evolutionChainResponse.statusCode}');
       }

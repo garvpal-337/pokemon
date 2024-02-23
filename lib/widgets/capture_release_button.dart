@@ -78,10 +78,10 @@ class _CaptureReleaseButtonState extends State<CaptureReleaseButton>
                         :  ShowImage(imagelink:  'assets/icons/pokeball.svg',height: widget.maxSize,),
                   ),
                 ),
-                const SizedBox(width: 2,),
+                 SizedBox(width: widget.maxSize * 0.1,),
                  widget.initialValue
-                        ? Text('Release',style: TextStyle(fontSize: widget.maxSize/ 1.5 ),)
-                        : Text('Capture',style: TextStyle(fontSize: widget.maxSize/1.5 )),
+                        ? Text('Release',style: TextStyle(fontSize: widget.maxSize/1.6 ),)
+                        : Text('Capture',style: TextStyle(fontSize: widget.maxSize/1.6 )),
               ],
             ),
           );

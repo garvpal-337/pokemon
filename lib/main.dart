@@ -17,7 +17,9 @@ void main() async {
         messagingSenderId: '1012576249992', 
         projectId: 'pokemon-7e947',  ),
   );
-
+  
+  // using dotenv for the safety pusposes...
+  // added POKEMON_API in assets/.env and loading it to dotenv
   await dotenv.load(fileName: 'assets/.env');
 
   runApp(
@@ -33,8 +35,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => PokemonProvider(),),
-        ChangeNotifierProvider(create: (context) => UserProv(),)
-      
+        ChangeNotifierProvider(create: (context) => UserProv(),)  
       ],
       child: MaterialApp(
         title: 'Pokémon',

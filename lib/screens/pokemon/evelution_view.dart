@@ -81,7 +81,7 @@ class EvolutionTIle extends StatelessWidget {
      this.showArrow = false
   });
 
-  final Map item;
+  final Pokemon item;
   final Color color;
   final Pokemon pokemon;
   final bool showArrow;
@@ -90,7 +90,7 @@ class EvolutionTIle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        MyListTile(title: item['name']!,
+        MyListTile(title: item.name!,
             height: 100,
             borderRadius: BorderRadius.circular(10),
             margin: const  EdgeInsets.symmetric(horizontal: 15,vertical: 5),
@@ -115,7 +115,7 @@ class EvolutionTIle extends StatelessWidget {
                     height: 100,
                     width: double.infinity,
                     child: ShowImage(
-                         imagelink:  pokemon.svgUrl ?? pokemon.imageUrl ?? '',
+                         imagelink:  item.svgUrl ?? item.imageUrl ?? '',
                          boxFit: BoxFit.contain,
                          height: 70,
                          width: 70,
@@ -126,7 +126,8 @@ class EvolutionTIle extends StatelessWidget {
             
             ),
             titleStyle: const TextStyle(fontSize: 19,fontWeight: FontWeight.bold),
-            subtitle: Text(item['flavor_text_entries'][0]['flavor_text'].toString().replaceAll('\n', ' ')),
+            subtitle: Text("Height : ${item.height} Meter"),
+            subtitle2: Text("Weight : ${item.weight} Kg\nType : ${pokemon.types?.join(', ')}"),
             
            
             ),

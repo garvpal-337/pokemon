@@ -194,9 +194,14 @@ class PokemonListTile extends StatelessWidget {
     ],
     
     ),
+    
     titleStyle: const TextStyle(fontSize: 19,fontWeight: FontWeight.bold),
-    subtitle:  Text("Height : ${ widget.item.height}  | Weight : ${widget.item.weight}",style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 15),),
-    subtitle2: widget.item.types == null ? null: Text("Types : ${ widget.item.types!.join(',')}",style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 15),),
+    subtitle:  Text("Height : ${ widget.item.height}  | Weight : ${widget.item.weight}",
+    maxLines: 2,
+    style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 15),),
+    subtitle2: widget.item.types == null ? null: Text("Types : ${ widget.item.types!.join(',')}",
+    maxLines: 1,
+    style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 15),),
     trailing: Padding(
       padding: const EdgeInsets.all(8.0),
       child: CaptureReleaseButton(

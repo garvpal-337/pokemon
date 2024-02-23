@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pokemon/models/pokemon_model.dart';
 import 'package:pokemon/providers/user_provider.dart';
@@ -9,6 +10,7 @@ import 'package:pokemon/widgets/appbar.dart';
 import 'package:pokemon/widgets/capture_release_button.dart';
 import 'package:pokemon/widgets/shimmer_container.dart';
 import 'package:pokemon/widgets/show_image.dart';
+import 'package:pokemon/widgets/widget_components.dart';
 import 'package:provider/provider.dart';
 
 class PokemonDetailsScreen extends StatefulWidget {
@@ -46,15 +48,11 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
     Pokemon pokemon = args['pokemon'];
     Color color = args['color'];
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: (){
-        PokemonService().getPokemonEvolutionChain(aboutPokemon!.evolutionUrl!).then((value) {
-         
-        });
-      }),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+           
             SizedBox(
               height: size.height * 0.45,
               child: Stack(
@@ -68,38 +66,54 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                   ),
                   Container(
                     alignment: Alignment.bottomCenter,
-                    child: Column(
-                      children: [
-                       Consumer<UserProv>(
-                         builder:(context, userProv, child){
-                          bool isSelected = userProv.isSelected(pokemon.id!);
-                           return  MyAppBar(title: '',backgroundColor: Colors.transparent,
-                           trailing: Padding(
-                             padding: const EdgeInsets.symmetric(horizontal: 15),
-                             child: CaptureReleaseButton(initialValue: isSelected, onClick: (){
-                               if(isSelected){
-                                                   userProv.addAndRemoveToMyPokemons(context,pokemon: pokemon, addPokemon: false);
-                                                 }else{
-                                                   userProv.addAndRemoveToMyPokemons(context,pokemon: pokemon, addPokemon: true);
-                             
-                                                 }
-                             }, value: (value) {
-                               
-                             },),
-                           ),
-                           );
-                         }
-                       ),
-                        Hero(
-                          tag: pokemon.name!,
-                          child: ShowImage(imagelink: pokemon.svgUrl,boxFit: BoxFit.contain,
-                          height: size.height * 0.3,
-                          )),
-                      ],
+                    child: SafeArea(
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 50,),
+                           Hero(
+                            tag: pokemon.name!,
+                            child: ShowImage(imagelink: pokemon.svgUrl,boxFit: BoxFit.contain,
+                            height: size.height * 0.3,
+                            )),
+                        ],
+                      ),
                     ),
                   ),
         
-                 
+                 Positioned(
+                  left: 2,
+                  child: SafeArea(
+                    child: myIconButton(
+                      onTap: (){
+                        Navigator.pop(context);
+                      },
+                      icon: const Icon(CupertinoIcons.chevron_back),
+                    ),
+                  )
+                 ),
+                 Positioned(
+                  right: 10,
+                  child: Consumer<UserProv>(
+                         builder:(context, userProv, child){
+                          bool isSelected = userProv.isSelected(pokemon.id!);
+                           return SafeArea(
+                             child: Padding(
+                               padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 15),
+                               child: CaptureReleaseButton(
+                                maxSize: 25,
+                                initialValue: isSelected, onClick: (){
+                                 if(isSelected){
+                                    userProv.addAndRemoveToMyPokemons(context,pokemon: pokemon, addPokemon: false);
+                                    }else{
+                                    userProv.addAndRemoveToMyPokemons(context,pokemon: pokemon, addPokemon: true);
+                                   }
+                               }, value: (value) {
+                                 
+                               },),
+                             ),
+                           );
+                         }
+                       ),)
                 ],
               ),
             ),
@@ -139,11 +153,14 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
             LabelAndValues(label: "Moves", color: color, value: pokemon.moves ?? [],size: size,),
            const Divider(),
            StatsView(pokemon: pokemon, color: color),
-           const Divider(),
-          if(aboutPokemon?.evolutionUrl != null) EvolutionView(evolutionUrl: aboutPokemon?.evolutionUrl ?? '',
+          if(aboutPokemon?.evolutionUrl != null) ...[
+          const Divider(),
+          EvolutionView(evolutionUrl: aboutPokemon?.evolutionUrl ?? '',
           pokemon: pokemon,
           color: color,
-          )
+          )],
+
+          const SizedBox(height: 20,),
           
         ],),
       ),

@@ -90,7 +90,7 @@ class MyListTile extends StatelessWidget {
                   title == 'null/'
                       ? const ShimmerContainer(height: 14, width: 140)
                       : Text(title,
-                          maxLines: 2,
+                          maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: titleStyle),
                   if (nullHeight)
